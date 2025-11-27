@@ -1,7 +1,12 @@
 package com.opencodex.jobportal.controller;
 
+import com.opencodex.jobportal.dto.skill.SkillRequest;
+import com.opencodex.jobportal.dto.skill.SkillResponse;
 import com.opencodex.jobportal.entity.Skill;
 import com.opencodex.jobportal.service.SkillService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,31 +15,34 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/skills")
+@RequiredArgsConstructor
 public class SkillController {
 
     private final SkillService skillService;
 
-    public SkillController(SkillService skillService) {
-        this.skillService = skillService;
+    @PostMapping
+    public ResponseEntity<SkillResponse> createSkill(@Valid @RequestBody SkillRequest request) {
+        return ResponseEntity.ok(skillService.createSkill(request));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SkillResponse> getById(@PathVariable UUID id) {
+        return ResponseEntity.ok(skillService.getSkillById(id));
     }
 
     @GetMapping
-    public List<Skill> getAll() {
-        return skillService.getAllSkills();
+    public ResponseEntity<List<SkillResponse>> getAll() {
+        return ResponseEntity.ok(skillService.getAllSkills());
     }
 
-    @GetMapping("/{name}")
-    public Optional<Skill> getByName(@PathVariable String name) {
-        return skillService.getByName(name);
-    }
-
-    @PostMapping
-    public Skill createSkill(@RequestBody Skill skill) {
-        return skillService.createSkill(skill);
+    @PutMapping("/{id}")
+    public ResponseEntity<SkillResponse> update(@PathVariable UUID id, @Valid @RequestBody SkillRequest request) {
+        return ResponseEntity.ok(skillService.updateSkill(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSkill(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         skillService.deleteSkill(id);
+        return ResponseEntity.noContent().build();
     }
 }

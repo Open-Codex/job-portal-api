@@ -1,33 +1,20 @@
 package com.opencodex.jobportal.service;
 
-import com.opencodex.jobportal.entity.Skill;
-import com.opencodex.jobportal.repository.SkillRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.opencodex.jobportal.dto.skill.SkillRequest;
+import com.opencodex.jobportal.dto.skill.SkillResponse;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class SkillService {
+public interface SkillService {
 
-    @Autowired
-    private SkillRepository skillRepository;
+    SkillResponse createSkill(SkillRequest request);
 
-    public List<Skill> getAllSkills() {
-        return skillRepository.findAll();
-    }
+    SkillResponse getSkillById(UUID id);
 
-    public Optional<Skill> getByName(String name) {
-        return skillRepository.findByName(name);
-    }
+    List<SkillResponse> getAllSkills();
 
-    public Skill createSkill(Skill skill) {
-        return skillRepository.save(skill);
-    }
+    SkillResponse updateSkill(UUID id, SkillRequest request);
 
-    public void deleteSkill(UUID id) {
-        skillRepository.deleteById(id);
-    }
+    void deleteSkill(UUID id);
 }
