@@ -7,6 +7,7 @@ import com.opencodex.jobportal.dto.auth.UserResponse;
 import com.opencodex.jobportal.entity.User;
 import com.opencodex.jobportal.enums.RoleEnum;
 import com.opencodex.jobportal.repository.UserRepository;
+import com.opencodex.jobportal.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     // Register
     public AuthResponse register(RegisterRequest request) {
@@ -59,8 +61,14 @@ public class AuthService {
             return new AuthResponse(false, "Invalid Credentials", null);
         }
 
+        String token = jwtUtil.generateToken(
+          user.getId().toString(),
+          user.getEmail(),
+          user.getRole().name()
+        );
+
         // JWT here
-        return new AuthResponse(true, "Successful Login", null);
+        return new AuthResponse(true, "Successful Login", token);
     }
 
     // DTO Public
