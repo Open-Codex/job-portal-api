@@ -7,6 +7,7 @@ import com.opencodex.jobportal.service.SkillService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class SkillController {
 
     private final SkillService skillService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<SkillResponse> createSkill(@Valid @RequestBody SkillRequest request) {
         return ResponseEntity.ok(skillService.createSkill(request));
@@ -35,11 +37,13 @@ public class SkillController {
         return ResponseEntity.ok(skillService.getAllSkills());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<SkillResponse> update(@PathVariable UUID id, @Valid @RequestBody SkillRequest request) {
         return ResponseEntity.ok(skillService.updateSkill(id, request));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         skillService.deleteSkill(id);

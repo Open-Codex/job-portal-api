@@ -2,6 +2,7 @@ package com.opencodex.jobportal.controller;
 
 import com.opencodex.jobportal.entity.User;
 import com.opencodex.jobportal.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class UserController {
         return userService.createUser(user);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
