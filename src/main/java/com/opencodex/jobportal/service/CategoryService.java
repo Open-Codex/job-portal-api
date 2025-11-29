@@ -1,33 +1,20 @@
 package com.opencodex.jobportal.service;
 
-import com.opencodex.jobportal.entity.Category;
-import com.opencodex.jobportal.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.opencodex.jobportal.dto.category.CategoryRequest;
+import com.opencodex.jobportal.dto.category.CategoryResponse;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class CategoryService {
+public interface CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    CategoryResponse createCategory(CategoryRequest request);
 
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
-    }
+    CategoryResponse getCategoryById(UUID id);
 
-    public Optional<Category> getByName(String name) {
-        return categoryRepository.findByName(name);
-    }
+    List<CategoryResponse> getAllCategories();
 
-    public Category createCategory(Category category) {
-        return categoryRepository.save(category);
-    }
+    CategoryResponse updateCategory(UUID id, CategoryRequest request);
 
-    public void deleteCategory(UUID id) {
-        categoryRepository.deleteById(id);
-    }
+    void deleteCategory(UUID id);
 }
