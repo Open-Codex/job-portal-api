@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface CountryRepository extends JpaRepository<Country, UUID> {
     Optional<Country> findByName(String name);
+    boolean existsByNameIgnoreCase(String name);
 }
