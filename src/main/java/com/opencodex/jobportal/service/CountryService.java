@@ -1,33 +1,20 @@
 package com.opencodex.jobportal.service;
 
-import com.opencodex.jobportal.entity.Country;
-import com.opencodex.jobportal.repository.CountryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.opencodex.jobportal.dto.country.CountryRequest;
+import com.opencodex.jobportal.dto.country.CountryResponse;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-@Service
-public class CountryService {
+public interface CountryService {
 
-    @Autowired
-    private CountryRepository countryRepository;
+    CountryResponse createCountry(CountryRequest request);
 
-    public List<Country> getAllCountries() {
-        return countryRepository.findAll();
-    }
+    CountryResponse getCountryById(UUID id);
 
-    public Optional<Country> getByName(String name) {
-        return countryRepository.findByName(name);
-    }
+    List<CountryResponse> getAllCountries();
 
-    public Country createCountry(Country country) {
-        return countryRepository.save(country);
-    }
+    CountryResponse updateCountry(UUID id, CountryRequest request);
 
-    public void deleteCountry(UUID id) {
-        countryRepository.deleteById(id);
-    }
+    void deleteCountry(UUID id);
 }
