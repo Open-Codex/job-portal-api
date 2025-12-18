@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface LanguageRepository extends JpaRepository<Language, UUID> {
     Optional<Language> findByCode(String code);
+    boolean existsByCodeIgnoreCase(String code);
+    boolean existsByNameIgnoreCase(String name);
 }
