@@ -1,33 +1,25 @@
 package com.opencodex.jobportal.service;
 
+import com.opencodex.jobportal.dto.language.LanguageRequest;
+import com.opencodex.jobportal.dto.language.LanguageResponse;
 import com.opencodex.jobportal.entity.Language;
 import com.opencodex.jobportal.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class LanguageService {
+public interface LanguageService {
 
-    @Autowired
-    private LanguageRepository languageRepository;
+    LanguageResponse createLanguage(LanguageRequest request);
 
-    public List<Language> getAllLanguages() {
-        return languageRepository.findAll();
-    }
+    LanguageResponse getLanguageById(UUID id);
 
-    public Optional<Language> getByCode(String code) {
-        return languageRepository.findByCode(code);
-    }
+    List<LanguageResponse> getAllLanguages();
 
-    public Language createLanguage(Language language) {
-        return languageRepository.save(language);
-    }
+    LanguageResponse updateLanguage(UUID id, LanguageRequest request);
 
-    public void deleteLanguage(UUID id) {
-        languageRepository.deleteById(id);
-    }
+    void deleteLanguage(UUID id);
 }
