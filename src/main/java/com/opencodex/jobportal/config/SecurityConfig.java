@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/skills/**").permitAll()
                         .requestMatchers("/api/countries/**").permitAll()
                         .requestMatchers("/api/languages/**").permitAll()
+                        .requestMatchers("/api/offers/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

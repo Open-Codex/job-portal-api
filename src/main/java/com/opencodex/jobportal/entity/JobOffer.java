@@ -2,12 +2,19 @@ package com.opencodex.jobportal.entity;
 
 import com.opencodex.jobportal.enums.*;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
 @Table(name = "job_offers")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class JobOffer {
 
     @Id
@@ -40,14 +47,14 @@ public class JobOffer {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "contract_type")
-    private ContractTypeEnum contractType;
+    private ContractTypeEnum contractType = ContractTypeEnum.FULL_TIME;
 
     @Enumerated(EnumType.STRING)
-    private SeniorityEnum seniority;
+    private SeniorityEnum seniority = SeniorityEnum.MID;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "location_type")
-    private LocationTypeEnum locationType;
+    private LocationTypeEnum locationType = LocationTypeEnum.REMOTE;
 
     private Boolean active = true;
 
