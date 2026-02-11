@@ -9,4 +9,7 @@ import java.util.UUID;
 public interface JobOfferRepository extends JpaRepository<JobOffer, UUID> {
     List<JobOffer> findByUser(User user);
     List<JobOffer> findByActiveTrue();
+    List<JobOffer> findByCategory_Id(UUID categoryId);
+    List<JobOffer> findByCountry_Id(UUID countryId);
+    List<JobOffer> findBySeniority(Enum seniority);
 }

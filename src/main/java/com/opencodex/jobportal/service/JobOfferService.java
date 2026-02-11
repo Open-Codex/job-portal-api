@@ -1,5 +1,7 @@
 package com.opencodex.jobportal.service;
 
+import com.opencodex.jobportal.dto.joboffer.JobOfferRequest;
+import com.opencodex.jobportal.dto.joboffer.JobOfferResponse;
 import com.opencodex.jobportal.entity.JobOffer;
 import com.opencodex.jobportal.entity.User;
 import com.opencodex.jobportal.repository.JobOfferRepository;
@@ -11,32 +13,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class JobOfferService {
+public interface JobOfferService {
 
-    @Autowired
-    private JobOfferRepository jobOfferRepository;
+    JobOfferResponse createJobOffer(JobOfferRequest request, String userEmail);
 
-    public List<JobOffer> getAllActiveOffers() {
-        return jobOfferRepository.findByActiveTrue();
-    }
+    JobOfferResponse getJobOfferById(UUID id);
 
-    public Optional<JobOffer> getOfferById(UUID id) {
-        return jobOfferRepository.findById(id);
-    }
+    List<JobOfferResponse> getAllJobOffersActive();
 
-    public List<JobOffer> getOffersByUser(User user) {
-        return jobOfferRepository.findByUser(user);
-    }
+    JobOfferResponse updateJobOffer(UUID id, JobOfferRequest request, String userEmail);
 
-    public JobOffer createOffer(JobOffer offer) {
-        return jobOfferRepository.save(offer);
-    }
-
-    public JobOffer updateOffer(JobOffer offer) {
-        return jobOfferRepository.save(offer);
-    }
-
-    public void deleteOffer(UUID id) {
-        jobOfferRepository.deleteById(id);
-    }
+    void deactivateJobOffer(UUID id, String userEmail);
 }
