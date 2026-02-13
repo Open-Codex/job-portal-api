@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 
@@ -41,6 +42,19 @@ public class SecurityConfig {
                         .requestMatchers("/api/languages/**").permitAll()
                         .requestMatchers("/api/offers/**").permitAll()
                         .anyRequest().authenticated()
+                );
+                http.exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(((request, response, authException) -> {
+                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            response.setContentType("application/json");
+                            response.getWriter().write("""
+                                    {
+                                        "status": 401,
+                                        "error": "Unauthorized",
+                                        "message": "Authentication required"
+                                    }
+                                    """);
+                        }))
                 );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
