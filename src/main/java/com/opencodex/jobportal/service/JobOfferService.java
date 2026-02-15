@@ -2,14 +2,13 @@ package com.opencodex.jobportal.service;
 
 import com.opencodex.jobportal.dto.joboffer.JobOfferRequest;
 import com.opencodex.jobportal.dto.joboffer.JobOfferResponse;
-import com.opencodex.jobportal.entity.JobOffer;
-import com.opencodex.jobportal.entity.User;
-import com.opencodex.jobportal.repository.JobOfferRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.opencodex.jobportal.enums.LocationTypeEnum;
+import com.opencodex.jobportal.enums.SeniorityEnum;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,6 +19,14 @@ public interface JobOfferService {
     JobOfferResponse getJobOfferById(UUID id);
 
     List<JobOfferResponse> getAllJobOffersActive();
+
+    Page<JobOfferResponse> searchJobOffers (
+            UUID categoryId,
+            UUID countryId,
+            SeniorityEnum seniority,
+            LocationTypeEnum locationType,
+            Pageable pageable
+    );
 
     JobOfferResponse updateJobOffer(UUID id, JobOfferRequest request, String userEmail);
 
