@@ -5,10 +5,16 @@ import com.opencodex.jobportal.dto.joboffer.JobOfferResponse;
 import com.opencodex.jobportal.entity.JobOffer;
 import com.opencodex.jobportal.entity.Skill;
 import com.opencodex.jobportal.entity.User;
+import com.opencodex.jobportal.enums.LocationTypeEnum;
+import com.opencodex.jobportal.enums.SeniorityEnum;
 import com.opencodex.jobportal.repository.*;
 import com.opencodex.jobportal.service.JobOfferService;
+import com.opencodex.jobportal.specification.JobOfferSpecification;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +60,31 @@ public class JobOfferServiceImpl implements JobOfferService {
                 .stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    @Override
+    public Page<JobOfferResponse> searchJobOffers(
+            UUID categoryId,
+            UUID countryId,
+            SeniorityEnum seniority,
+            LocationTypeEnum locationType,
+            Pageable pageable
+    ) {
+        Specification<JobOffer> spec = JobOfferSpecification.isActive();
+
+        if (categoryId != null)
+            spec = spec.and(JobOfferSpecification.hasCategory(categoryId));
+
+        if (countryId != null)
+            spec = spec.and(JobOfferSpecification.hasCountry(countryId));
+
+        if (seniority != null)
+            spec = spec.and(JobOfferSpecification.hasSeniority(seniority));
+
+        if (locationType != null)
+            spec = spec.and(JobOfferSpecification.hasLocationType(locationType));
+
+        return jobOfferRepository.findAll(spec, pageable).map(this::toResponse);
     }
 
     @Override
