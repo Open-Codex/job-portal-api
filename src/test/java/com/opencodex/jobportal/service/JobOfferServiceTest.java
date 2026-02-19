@@ -3,6 +3,7 @@ package com.opencodex.jobportal.service;
 import com.opencodex.jobportal.dto.joboffer.JobOfferResponse;
 import com.opencodex.jobportal.entity.JobOffer;
 import com.opencodex.jobportal.repository.JobOfferRepository;
+import com.opencodex.jobportal.service.impl.JobOfferServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,17 +22,17 @@ public class JobOfferServiceTest {
     private JobOfferRepository jobOfferRepository;
 
     @InjectMocks
-    private JobOfferService jobOfferService;
+    private JobOfferServiceImpl jobOfferService;
 
     @Test
     void shouldReturnAllJobOffers() {
         List<JobOffer> mockList = List.of(new JobOffer(), new JobOffer());
 
-        when(jobOfferRepository.findAll()).thenReturn(mockList);
+        when(jobOfferRepository.findByActiveTrue()).thenReturn(mockList);
 
         List<JobOfferResponse> result = jobOfferService.getAllJobOffersActive();
 
         assertEquals(2, result.size());
-        verify(jobOfferRepository, times(1)).findAll();
+        verify(jobOfferRepository, times(1)).findByActiveTrue();
     }
 }
