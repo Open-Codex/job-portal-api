@@ -33,6 +33,6 @@ public class JobOfferServiceTest {
         List<JobOfferResponse> result = jobOfferService.getAllJobOffersActive();
 
         assertEquals(2, result.size());
-        verify(jobOfferRepository, times(1)).findByActiveTrue();-
+        verify(jobOfferRepository, times(1)).findByActiveTrue();
     }
 }
