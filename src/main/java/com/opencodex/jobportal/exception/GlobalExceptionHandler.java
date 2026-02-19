@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.nio.channels.AcceptPendingException;
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
@@ -38,9 +39,9 @@ public class GlobalExceptionHandler {
         );
     }
 
-    @ExceptionHandler(AcceptPendingException.class)
+    @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleForbidden(
-            AcceptPendingException ex,
+            AccessDeniedException ex,
             HttpServletRequest request
     ) {
         return buildResponse(
